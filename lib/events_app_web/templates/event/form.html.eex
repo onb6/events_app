@@ -1,0 +1,52 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+
+  <div class="form-group">
+    <%= label f, :event_name %>
+    <%= text_input f, :event_name, class: "form-control"%>
+    <%= error_tag f, :event_name %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :date %>
+    <div class="input-group input-daterange"> 
+        <%= text_input f, :date, class: "form-control text-left" %>
+
+      </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.input-daterange').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        calendarWeeks : true,
+        clearBtn: true,
+        disableTouchKeyboard: true
+        });
+      });
+    </script>
+    <%= error_tag f, :date %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :time %><br/>
+    <%= time_select f, :time, class: "form-control" %>
+    <%= error_tag f, :time %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :description %>
+    <%= textarea f, :description, class: "form-control" %>
+    <%= error_tag f, :description %>
+  </div>
+
+  <div>
+    <%= submit "Save", class: "btn btn-primary" %>
+  </div>
+
+<% end %>

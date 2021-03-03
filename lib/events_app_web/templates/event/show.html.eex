@@ -1,0 +1,9 @@
+<h1><%= @event.event_name %></h1>
+<p> <%= @event.description %> </p>
+<p> <strong>Date:</strong>
+    <%= @event.date %></p>
+<p><strong>Time:</strong>
+    <%= @event.time %></p>
+
+<span><%= link "Edit", to: Routes.event_path(@conn, :edit, @event), class: "btn btn-outline-success"  %></span>
+<span><%= link "Back", to: Routes.event_path(@conn, :index), class: "btn btn-outline-primary" %></span>
