@@ -68,8 +68,8 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
 config :events_app, EventsApp.Repo,
-  username: "postgres",
-  password: "91145",
+  username: "events_app",
+  password: "r5!r96F\\",
   database: "events_app_dev",
   hostname: "localhost",
   pool_size: 10
