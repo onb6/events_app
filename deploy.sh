@@ -6,6 +6,7 @@ export MIX_ENV=prod
 # on is something like 1025-32767
 export PORT=5678
 export SECRET_KEY_BASE=insecure
+export DATABASE_URL=ecto://events_app:r5!r96F\\@localhost/events_app_prod
 
 mix deps.get --only prod
 mix compile
