@@ -1,5 +1,8 @@
 use Mix.Config
 
+config :events_app, EventsApp.Endpoint, 
+  env: "test"
+
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :events_app, EventsAppWeb.Endpoint,
@@ -12,7 +15,7 @@ config :logger, level: :warn
 # Configure your database
 config :events_app, EventsApp.Repo,
   username: "events_apps",
-  password: "r5!r96F\\",
+  password: "MEvnV!Crn^aa",
   database: "events_app_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

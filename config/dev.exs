@@ -1,5 +1,8 @@
 use Mix.Config
 
+config :events_app, EventsApp.Endpoint, 
+  env: "dev"
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
@@ -68,8 +71,8 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
 config :events_app, EventsApp.Repo,
-  username: "events_app",
-  password: "r5!r96F\\",
+  username: "postgres",
+  password: "91145",
   database: "events_app_dev",
   hostname: "localhost",
   pool_size: 10
