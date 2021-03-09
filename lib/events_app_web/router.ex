@@ -21,14 +21,11 @@ defmodule EventsAppWeb.Router do
     get "/", PageController, :index
     resources "/users", UserController
     resources "/events", EventController
+    resources "/comments", CommentController
+    resources "/responses", ResponseController
 
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", EventsAppWeb do
-  #   pipe_through :api
-  # end
 
 
 end

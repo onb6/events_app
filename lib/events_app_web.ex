@@ -23,6 +23,7 @@ defmodule EventsAppWeb do
 
       import Plug.Conn
       import EventsAppWeb.Gettext
+      import EventsAppWeb.Helpers
       alias EventsAppWeb.Router.Helpers, as: Routes
     end
   end
@@ -36,14 +37,27 @@ defmodule EventsAppWeb do
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
 
+      # From lecture notes
+      unquote(view_helpers())
+    end
+  end
+
+  # From lecture notes
+  defp view_helpers do
+    quote do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
+      # Import basic rendering functionality (render, render_layout, etc)
+      import Phoenix.View
+
       import EventsAppWeb.ErrorHelpers
       import EventsAppWeb.Gettext
+      import EventsAppWeb.Helpers
       alias EventsAppWeb.Router.Helpers, as: Routes
     end
   end
+
 
   def router do
     quote do

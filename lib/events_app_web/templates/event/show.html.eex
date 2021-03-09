@@ -1,9 +1,88 @@
-<h1><%= @event.event_name %></h1>
-<p> <%= @event.description %> </p>
-<p> <strong>Date:</strong>
-    <%= @event.date %></p>
-<p><strong>Time:</strong>
-    <%= @event.time %></p>
+<div class="row">
+    <div class="col">
+    <h1><%= @event.event_name %></h1>
+    <p> <%= @event.date %>, <%= @event.time %></p>
+    <p> <%= @event.description %> </p>
+    </div>
+    <div class="col-">
+    <%= if current_user_id?(@conn, @event.user_id) do %>
+        <span><%= link "Edit", to: Routes.event_path(@conn, :edit, @event), class: "btn btn-outline-success"  %></span>
+    <% end %>
+    <span><%= link "Back", to: Routes.event_path(@conn, :index), class: "btn btn-outline-primary" %></span>
+    </div>
+</div>
 
-<span><%= link "Edit", to: Routes.event_path(@conn, :edit, @event), class: "btn btn-outline-success"  %></span>
-<span><%= link "Back", to: Routes.event_path(@conn, :index), class: "btn btn-outline-primary" %></span>
+<div class=row> 
+    <div class="col">
+        <h4>RSVP!</h4>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-success">
+                <input type="radio" name="response" id="yes" autocomplete="off"> Yes
+            </label>
+            <label class="btn btn-outline-danger">
+                <input type="radio" name="response" id="no" autocomplete="off"> No
+            </label>
+            <label class="btn btn-outline-warning">
+                <input type="radio" name="response" id="maybe" autocomplete="off"> Maybe
+            </label>
+        </div>
+        <%= if current_user_id?(@conn, @event.user_id) do %>
+        <h4>Responses:</h4>
+        <p>Yes: <%= @event.yes%>, No: <%= @event.no%>, Maybe: <%= @event.maybe%></p>
+        <% end %>
+
+    </div>
+    <div class="col">
+        <h4>Guest List</h4>
+        <table class="table">
+        <tbody>
+            <tr>
+            <td>Olivia</td>
+            </tr>
+            <tr>
+            <td>Ryan</td>
+            </tr>
+            <tr>
+            <td>Lydia</td>
+            </tr>
+            </tbody>
+            </table>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+    <h4>Comments</h4>
+
+    <table class="table">
+      <tbody>
+        <%= for comment <- @event.comments do %>
+            <tr>
+            <td><%= comment.user.name %>:</td>
+            <td><%= comment.body %></td>
+
+            <td>
+                <%= if current_user_id(@conn) == comment.user_id || current_user_id(@conn) == @event.user_id do %>
+                    <span><%= link "Delete", to: Routes.comment_path(@conn, :delete, comment), method: :delete, data: [confirm: "Are you sure?"], class:  "btn btn-outline-danger btn-sm"%></span>
+                <% end %>
+            </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+    <%= if have_current_user?(@conn) do %>
+    <h4>Add Comment</h4>
+    <%= render(
+        EventsAppWeb.CommentView,
+        "form.html",
+        changeset: @new_comment,
+        action: Routes.comment_path(@conn, :create)
+    ) %>
+    <% end %>
+    </div>
+
+    <div class="col">
+    <h4>Updates</h4>
+    </div>
+</div>
