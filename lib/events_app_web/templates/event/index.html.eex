@@ -1,16 +1,17 @@
-<h1>Events!!</h1>
+<h1>Events!!
 <%= if have_current_user?(@conn) do %>
-  <span><%= link "Create New Event", to: Routes.event_path(@conn, :new), class: "btn btn-outline-success" %></span>
+  <span class="float-right"><%= link "Create New Event", to: Routes.event_path(@conn, :new), class: "btn btn-outline-success" %></span>
 <% end %>
+</h1>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Owner</th>
+      <th></th>
+      <th>Host</th>
       <th>Event name</th>
       <th>Date</th>
       <th>Time</th>
-      <th>Description</th>
 
       <th></th>
     </tr>
@@ -18,11 +19,11 @@
   <tbody>
 <%= for event <- @events do %>
     <tr>
+      <td><img src=<%= Routes.user_path(@conn, :photo, event.user) %> alt="Profile Picture" style="width:75px;height:auto;" class="img-thumbnail rounded-circle"></td>
       <td><%= event.user.name %></td>
       <td><%= event.event_name %></td>
       <td><%= event.date %></td>
       <td><%= event.time %></td>
-      <td><%= event.description %></td>
 
       
         <td>

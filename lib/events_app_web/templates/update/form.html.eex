@@ -5,11 +5,12 @@
     </div>
   <% end %>
 
-  <%= label f, :response %>
-  <%= number_input f, :response %>
-  <%= error_tag f, :response %>
+  <%= textarea f, :body, class: "form-control" %>
+  <%= error_tag f, :body %>
 
-  <div>
-    <%= submit "Save" %>
+  <%= hidden_input f, :event_id %>
+
+  <div style="margin-bottom:20px;">
+    <%= submit "Post Update", class: "btn btn-outline-primary" %>
   </div>
 <% end %>

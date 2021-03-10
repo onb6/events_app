@@ -1,20 +1,29 @@
-<div class="row">
-    <div class="col">
+<div class="row" style="margin-bottom:50px;">
+    <div class="col-8">
     <h1><%= @event.event_name %></h1>
     <p> <%= @event.date %>, <%= @event.time %></p>
     <p> <%= @event.description %> </p>
-    </div>
-    <div class="col-">
-    <%= if current_user_id?(@conn, @event.user_id) do %>
+     <%= if current_user_id?(@conn, @event.user_id) do %>
         <span><%= link "Edit", to: Routes.event_path(@conn, :edit, @event), class: "btn btn-outline-success"  %></span>
     <% end %>
+    </div>
+    <div class="col-3">
+    <h4><img src=<%= Routes.user_path(@conn, :photo, @event.user_id) %> alt="Profile Picture" style="width:75px;height:auto;" class="img-thumbnail rounded-circle">
+    Host: <%= link EventsApp.Users.get_user(@event.user_id).name, to: Routes.user_path(@conn, :show, @event.user_id)%></h4>
+    </div>
+    <div class="col-1">
     <span><%= link "Back", to: Routes.event_path(@conn, :index), class: "btn btn-outline-primary" %></span>
     </div>
 </div>
 
-<div class=row> 
+<div class="row"> 
     <div class="col">
-        <h4>RSVP!</h4>
+    <%= if current_user_id?(@conn, @event.user_id) do %>
+        <h4>Responses:</h4>
+        <p>Yes: <%= @event.yes%>, No: <%= @event.no%>, Maybe: <%= @event.maybe%></p>
+        
+    <%= else %> 
+        <h4>RSVP!</h4> 
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-outline-success">
                 <input type="radio" name="response" id="yes" autocomplete="off"> Yes
@@ -26,14 +35,10 @@
                 <input type="radio" name="response" id="maybe" autocomplete="off"> Maybe
             </label>
         </div>
-        <%= if current_user_id?(@conn, @event.user_id) do %>
-        <h4>Responses:</h4>
-        <p>Yes: <%= @event.yes%>, No: <%= @event.no%>, Maybe: <%= @event.maybe%></p>
-        <% end %>
+        
+    <% end %>
 
-    </div>
-    <div class="col">
-        <h4>Guest List</h4>
+        <h4 style="margin-top:20px;">Guest List</h4>
         <table class="table">
         <tbody>
             <tr>
@@ -45,22 +50,28 @@
             <tr>
             <td>Lydia</td>
             </tr>
-            </tbody>
-            </table>
-
+        </tbody>
+        </table>
     </div>
-</div>
 
-<div class="row">
     <div class="col">
-    <h4>Comments</h4>
-
+    
+     <%= if have_current_user?(@conn) do %>
+    <h4>Add Comment</h4>
+    <%= render(
+        EventsAppWeb.CommentView,
+        "form.html",
+        changeset: @new_comment,
+        action: Routes.comment_path(@conn, :create)
+    ) %>
+    <% end %>
+<h4 style="margin-top:20px;">Comments</h4>
     <table class="table">
       <tbody>
         <%= for comment <- @event.comments do %>
             <tr>
-            <td><%= comment.user.name %>:</td>
-            <td><%= comment.body %></td>
+            <td><img src=<%= Routes.user_path(@conn, :photo, comment.user) %> alt="Profile Picture" style="max-width:60px;height:auto;" class="img-thumbnail rounded-circle"></td>
+            <td><%= link comment.user.name, to: Routes.user_path(@conn, :show, comment.user)%>: <%= comment.body %></td>
 
             <td>
                 <%= if current_user_id(@conn) == comment.user_id || current_user_id(@conn) == @event.user_id do %>
@@ -71,18 +82,34 @@
         <% end %>
         </tbody>
     </table>
-    <%= if have_current_user?(@conn) do %>
-    <h4>Add Comment</h4>
-    <%= render(
-        EventsAppWeb.CommentView,
-        "form.html",
-        changeset: @new_comment,
-        action: Routes.comment_path(@conn, :create)
-    ) %>
-    <% end %>
     </div>
 
     <div class="col">
-    <h4>Updates</h4>
+     <%= if current_user_id?(@conn, @event.user_id) do %>
+    <h4 >Add Update</h4>
+    <%= render(
+        EventsAppWeb.UpdateView,
+        "form.html",
+        changeset: @new_update,
+        action: Routes.update_path(@conn, :create)
+    ) %>
+    <% end %>
+    <h4>Updates from the Host</h4>
+     <table class="table">
+      <tbody>
+        <%= for update <- @event.updates do %>
+            <tr>
+            <td><%= update.body %></td>
+            <td>
+                <%= if current_user_id(@conn) == @event.user_id do %>
+                    <span><%= link "Delete", to: Routes.update_path(@conn, :delete, update), method: :delete, data: [confirm: "Are you sure?"], class:  "btn btn-outline-danger btn-sm"%></span>
+                <% end %>
+            </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+    
+    </div>
     </div>
 </div>

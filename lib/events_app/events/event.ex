@@ -10,7 +10,7 @@ defmodule EventsApp.Events.Event do
 
     belongs_to :user, EventsApp.Users.User
     has_many :comments, EventsApp.Comments.Comment
-    has_many :responses, EventsApp.Responses.Responses
+    has_many :updates, EventsApp.Updates.Update
 
     field :yes, :integer, virtual: true
     field :no, :integer, virtual: true

@@ -16,17 +16,14 @@
   </head>
 
   <body class="app">
- 
-  <div role="main" class="container">
-     <div class="navbar bg-light">
-        <%= if @conn.assigns[:current_user] do %>
-          <div class="nav-item">
+  <div class="navbar bg-light" style="margin-bottom:20px;">
+        <div class="nav-item">
             <%= link "Home", to: Routes.page_path(@conn, :index), class: "btn btn-outline-success" %>
           </div>
+        <%= if @conn.assigns[:current_user] do %>
+
           <div class="nav-item">
-            <div class="nav-item">
-              <%= @current_user.name %> 
-            </div>
+           My profile: <%= link @current_user.name, to: Routes.user_path(@conn, :show, @current_user.id)%> | 
             <%= link("Logout", to: Routes.session_path(@conn, :delete), method: :delete, class: "btn btn-outline-primary")  %>
           </div>
         <% else %>
@@ -44,7 +41,10 @@
         <% end %>
     </div>
 
-    <div role="main" class="container">
+ 
+  <div role="main" class="container">
+     
+    <div >
       <%= if get_flash(@conn, :info) do %>
         <p class="alert alert-info alert-dismissible fade show" role="alert">
           <%= get_flash(@conn, :info) %>

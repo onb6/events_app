@@ -1,3 +1,4 @@
 <div >
     <p><%= link "See Events", to: Routes.event_path(@conn, :index), class: "btn btn-outline-primary" %></p>
+    <p><%= link "See Users", to: Routes.user_path(@conn, :index), class: "btn btn-outline-primary" %></p>
 </div>

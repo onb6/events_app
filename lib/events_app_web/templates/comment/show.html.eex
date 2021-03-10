@@ -9,5 +9,5 @@
 
 </ul>
 
-<span><%= link "Edit", to: Routes.comment_path(@conn, :edit, @comment) %></span>
-<span><%= link "Back", to: Routes.comment_path(@conn, :index) %></span>
+<span><%= link "Edit", to: Routes.comment_path(@conn, :edit, @comment), class: "btn btn-outline-success" %></span>
+<span><%= link "Back", to: Routes.comment_path(@conn, :index), class: "btn btn-outline-primary" %></span>

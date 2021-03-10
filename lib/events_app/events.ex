@@ -108,22 +108,9 @@ defmodule EventsApp.Events do
     Repo.preload(event, [comments: :user])
   end
 
-  # Based on load_votes from lecture notes
-  def load_responses(events) do
-    events = Repo.preload(events, :responses)
-
-    Enum.map events, fn event ->
-      yes = event.responses
-      |> Enum.filter(fn r -> r == 1 end)
-      |> Enum.count()
-      no = event.responses
-      |> Enum.filter(fn r -> r == 0 end)
-      |> Enum.count()
-      maybe = event.responses
-      |> Enum.filter(fn r -> r == 2 end)
-      |> Enum.count()
-      %{ event | yes: yes, no: no, maybe: maybe }
-    end
+  # From lecture notes
+  def load_updates(%Event{} = event) do
+    Repo.preload(event, [updates: :event])
   end
 
 end
