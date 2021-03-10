@@ -47,7 +47,7 @@ defmodule EventsAppWeb.UpdateController do
       {:ok, update} ->
         conn
         |> put_flash(:info, "Update updated successfully.")
-        |> redirect(to: Routes.update_path(conn, :show, update))
+        |> redirect(to: Routes.event_path(conn, :show, update.event_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", update: update, changeset: changeset)
@@ -56,10 +56,11 @@ defmodule EventsAppWeb.UpdateController do
 
   def delete(conn, %{"id" => id}) do
     update = Updates.get_update!(id)
+    event_id = update.event_id
     {:ok, _update} = Updates.delete_update(update)
 
     conn
     |> put_flash(:info, "Update deleted successfully.")
-    |> redirect(to: Routes.update_path(conn, :index))
+    |> redirect(to: Routes.event_path(conn, :show, event_id))
   end
 end

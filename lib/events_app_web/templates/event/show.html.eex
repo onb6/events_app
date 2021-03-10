@@ -25,13 +25,13 @@
     <%= else %> 
         <h4>RSVP!</h4> 
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-outline-success">
+            <label class="btn btn-lg btn-outline-success">
                 <input type="radio" name="response" id="yes" autocomplete="off"> Yes
             </label>
-            <label class="btn btn-outline-danger">
+            <label class="btn btn-lg btn-outline-danger">
                 <input type="radio" name="response" id="no" autocomplete="off"> No
             </label>
-            <label class="btn btn-outline-warning">
+            <label class="btn btn-lg btn-outline-warning">
                 <input type="radio" name="response" id="maybe" autocomplete="off"> Maybe
             </label>
         </div>
