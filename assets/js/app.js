@@ -19,6 +19,8 @@ import "phoenix_html"
 import 'bootstrap';
 import flatpickr from 'flatpickr';
 
+import "./rsvp"
+
 /*
 flatpickr('#my-date-picker', { 
     wrap: true,
