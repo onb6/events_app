@@ -7,12 +7,12 @@ function response_done(data, status, _xhr) {
 function send_response(event_id, response) {
     let body = {invite: {event_id, response}};
 
-    $.ajax("/api/invites", {
+    $.ajax("/invites", {
         method: "post",
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         data: JSON.stringify(body),
-        headers: {},
+        headers: { 'x-auth': window.userToken, },
         success: response_done,
         error: console.log,
     });

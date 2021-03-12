@@ -6,22 +6,23 @@
   <% end %>
 
   <div class="form-group">
-    <%= label f, :name %>
+    <%= label f, :name %>*
     <%= text_input f, :name, class: "form-control" %>
     <%= error_tag f, :name %>
   </div>
 
   <div class="form-group">
-    <%= label f, :email %>
+    <%= label f, :email %>*
     <%= email_input f, :email, class: "form-control" %>
     <%= error_tag f, :email %>
   </div>
 
   <div class="form-group">
-    <%= label f, :photo %>
+    <%= label f, :photo %>*
     <%= file_input f, :photo, class: "form-control" %>
     <%= error_tag f, :photo %>
   </div>
+  <p>Fields marked with a * are required</p>
 
   <div>
     <%= submit "Save", class: "btn btn-primary" %>

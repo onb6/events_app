@@ -1,4 +1,4 @@
-<div >
-    <p><%= link "See Events", to: Routes.event_path(@conn, :index), class: "btn btn-outline-primary" %></p>
-    <p><%= link "See Users", to: Routes.user_path(@conn, :index), class: "btn btn-outline-primary" %></p>
+<div class="text-center">
+    <h1>Welcome to the Events App!</h1>
+    <p>You can view your events and other users profiles in the upper left of your screen! Enjoy!</p>
 </div>

@@ -11,6 +11,7 @@ defmodule EventsAppWeb.EventController do
 
   def index(conn, _params) do
     events = Events.list_events()
+    |> Enum.map(fn e -> Events.load_invites(e) end)
     render(conn, "index.html", events: events)
   end
 
@@ -39,6 +40,9 @@ defmodule EventsAppWeb.EventController do
     event = conn.assigns[:event]
     |> Events.load_comments()
     |> Events.load_updates()
+    |> Events.load_invites()
+    |> Events.load_responses()
+
     comm = %EventsApp.Comments.Comment{
       event_id: event.id,
       user_id: current_user_id(conn),
@@ -48,8 +52,12 @@ defmodule EventsAppWeb.EventController do
       event_id: event.id
     }
     new_update = EventsApp.Updates.change_update(update)
+    invite = %EventsApp.Invites.Invite{
+      event_id: event.id
+    }
+    new_invite = EventsApp.Invites.change_invite(invite)
 
-    render(conn, "show.html", event: event, new_comment: new_comment, new_update: new_update)
+    render(conn, "show.html", event: event, new_comment: new_comment, new_update: new_update, new_invite: new_invite)
   end
 
   def edit(conn, %{"id" => id}) do

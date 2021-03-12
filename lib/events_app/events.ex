@@ -113,4 +113,23 @@ defmodule EventsApp.Events do
     Repo.preload(event, [updates: :event])
   end
 
+  def load_invites(%Event{} = event) do
+    Repo.preload(event, [invites: :event])
+  end
+
+  def load_responses(%Event{} = event) do 
+    yes = event.invites
+    |> Enum.filter(fn i -> i.response == 1 end) 
+    |> Enum.count()
+    maybe = event.invites
+    |> Enum.filter(fn i -> i.response == 2 end) 
+    |> Enum.count()
+    no = event.invites
+    |> Enum.filter(fn i -> i.response == 0 end) 
+    |> Enum.count()
+    nr = event.invites
+    |> Enum.filter(fn i -> i.response == -1 end) 
+    |> Enum.count()
+    %{ event | yes: yes, no: no, maybe: maybe, nr: nr}
+  end
 end

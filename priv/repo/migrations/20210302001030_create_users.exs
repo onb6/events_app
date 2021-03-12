@@ -15,11 +15,10 @@ defmodule EventsApp.Repo.Migrations.CreateUsers do
     default_photo = Inject.photo("default.jpeg")
     create table(:users) do
       add :name, :string, null: false
-      add :email, :string, null: false
+      add :email, :string, unique: true, null: false
       add :photo_hash, :text, null: false, default: default_photo
 
       timestamps()
     end
-
   end
 end

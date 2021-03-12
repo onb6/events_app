@@ -1,5 +1,15 @@
 # From lecture notes
 defmodule EventsApp.Photos do
+
+  defmodule Inject do
+    def photo(name) do
+      photos = Application.app_dir(:events_app, "priv/photos")
+      path = Path.join(photos, name)
+      {:ok, hash} = EventsApp.Photos.save_photo(name, path)
+      hash
+    end
+  end
+
     def save_photo(name, path) do
       data = File.read!(path)
       hash = sha256(data)
@@ -64,4 +74,5 @@ defmodule EventsApp.Photos do
       :crypto.hash(:sha256, data)
       |> Base.encode16(case: :lower)
     end
+
   end

@@ -11,10 +11,12 @@ defmodule EventsApp.Events.Event do
     belongs_to :user, EventsApp.Users.User
     has_many :comments, EventsApp.Comments.Comment
     has_many :updates, EventsApp.Updates.Update
+    has_many :invites, EventsApp.Invites.Invite
 
     field :yes, :integer, virtual: true
     field :no, :integer, virtual: true
     field :maybe, :integer, virtual: true
+    field :nr, :integer, virtual: true
 
     timestamps()
   end

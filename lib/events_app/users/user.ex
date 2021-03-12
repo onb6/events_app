@@ -8,6 +8,7 @@ defmodule EventsApp.Users.User do
     field :photo_hash, :string
     has_many :events, EventsApp.Events.Event
     has_many :comments, EventsApp.Comments.Comment
+    has_many :invites, EventsApp.Invites.Invite
 
     timestamps()
   end

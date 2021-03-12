@@ -30,5 +30,5 @@ me = Inject.photo("me.jpeg")
 olivia = Repo.insert!(%User{name: "olivia", email: "blierolivia@gmail.com", photo_hash: me})
 #ryan = Repo.insert!(%User{name: "ryan", email: "hart.ry@northeastern.edu", photo_hash: ryan})
 
-#Repo.insert!(%Event{user_id: olivia.id, event_name: "Olivia's Birthday Party", description: "Happy birthday me!", date: "2021-07-15", time: "12:00:00"})
+event = Repo.insert!(%Event{user_id: olivia.id, event_name: "Olivia's Birthday Party", description: "Happy birthday me!", date: '2021-03-11', time: '12:00:00'})
 #Repo.insert!(%Event{user_id: ryan.id, event_name: "Dumb event", description: "This is stupid like me!", date: "2021-03-10", time: "9:00:00"})
