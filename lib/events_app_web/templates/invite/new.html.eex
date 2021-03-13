@@ -1,0 +1,6 @@
+<h1>Invite a Guest</h1>
+<p>To invite a guest, enter their email below, then manually email them the provided link</p>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.invite_path(@conn, :create)) %>
+
+<span><%= link "Back", to: Routes.invite_path(@conn, :index), class: "btn btn-outline-primary" %></span>

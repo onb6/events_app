@@ -13,21 +13,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.js"></script>
+     <script>
+      window.userToken = "<%= @conn.assigns[:user_token] %>";
+    </script>
   </head>
 
   <body class="app">
- 
-  <div role="main" class="container">
-     <div class="navbar bg-light">
+  <div class="navbar bg-light" style="margin-bottom:20px;">
+        <div class="nav-item">
+            <%= link "My Events", to: Routes.event_path(@conn, :index), class: "btn btn-outline-primary" %>
+            <%= link "View Users", to: Routes.user_path(@conn, :index), class: "btn btn-outline-primary" %>
+          </div>
         <%= if @conn.assigns[:current_user] do %>
           <div class="nav-item">
-            <%= link "Home", to: Routes.page_path(@conn, :index), class: "btn btn-outline-success" %>
-          </div>
-          <div class="nav-item">
-            <div class="nav-item">
-              <%= @current_user.name %> 
-            </div>
-            <%= link("Logout", to: Routes.session_path(@conn, :delete), method: :delete, class: "btn btn-outline-primary")  %>
+           My profile: <%= link @current_user.name, to: Routes.user_path(@conn, :show, @current_user.id)%> | 
+            <%= link("Logout", to: Routes.session_path(@conn, :delete), method: :delete, class: "btn btn-outline-warning")  %>
           </div>
         <% else %>
           <div class="nav-item">
@@ -44,7 +44,10 @@
         <% end %>
     </div>
 
-    <div role="main" class="container">
+ 
+  <div role="main" class="container">
+     
+    <div >
       <%= if get_flash(@conn, :info) do %>
         <p class="alert alert-info alert-dismissible fade show" role="alert">
           <%= get_flash(@conn, :info) %>
@@ -67,6 +70,5 @@
 
     <%= render @view_module, @view_template, assigns %>
   </div>
-
   </body>
 </html>

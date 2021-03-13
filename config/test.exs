@@ -15,7 +15,7 @@ config :logger, level: :warn
 # Configure your database
 config :events_app, EventsApp.Repo,
   username: "events_apps",
-  password: "MEvnV!Crn^aa",
+  password: "91145",
   database: "events_app_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

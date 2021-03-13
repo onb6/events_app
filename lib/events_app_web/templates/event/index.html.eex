@@ -1,30 +1,40 @@
-<h1>Events!!</h1>
-<span><%= link "Create New Event", to: Routes.event_path(@conn, :new), class: "btn btn-outline-success" %></span>
+<%= #This page shows all events that the user is invited to or own, %>
+<h1>My Events!!
+<%= if have_current_user?(@conn) do %>
+  <span class="float-right"><%= link "Create New Event", to: Routes.event_path(@conn, :new), class: "btn btn-outline-success" %></span>
+<% end %>
+</h1>
+
+<%= if have_current_user?(@conn) do %>
 <table class="table table-striped">
   <thead>
     <tr>
+      <th></th>
+      <th>Host</th>
       <th>Event name</th>
       <th>Date</th>
       <th>Time</th>
-      <th>Description</th>
 
       <th></th>
     </tr>
   </thead>
   <tbody>
 <%= for event <- @events do %>
+    <%= if (current_user_id?(@conn, event.user_id) || on_invite_list?(@conn, event.invites)) do %>
     <tr>
+      <td><img src=<%= Routes.user_path(@conn, :photo, event.user) %> alt="Profile Picture" style="width:75px;height:auto;" class="img-thumbnail rounded-circle"></td>
+      <td><%= event.user.name %></td>
       <td><%= event.event_name %></td>
       <td><%= event.date %></td>
       <td><%= event.time %></td>
-      <td><%= event.description %></td>
-
       <td>
-        <span><%= link "Show", to: Routes.event_path(@conn, :show, event), class: "btn btn-outline-primary" %></span>
-        <span><%= link "Edit", to: Routes.event_path(@conn, :edit, event), class: "btn btn-outline-success" %></span>
-        <span><%= link "Delete", to: Routes.event_path(@conn, :delete, event), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-outline-danger" %></span>
+        <span><%= link "View Detail", to: Routes.event_path(@conn, :show, event), class: "btn btn-outline-primary" %></span>
       </td>
     </tr>
+    <% end %>
+    <% end %>
+<% else %>
+    Please login or signup to see your events!
 <% end %>
   </tbody>
 </table>

@@ -17,5 +17,31 @@ import "phoenix_html"
 // import socket from "./socket"
 
 import 'bootstrap';
+import flatpickr from 'flatpickr';
 
-$('.datepicker').datepicker();
+import "./rsvp"
+
+/*
+flatpickr('#my-date-picker', { 
+    wrap: true,
+    altInput: true,
+    dateFormat: "YYYY-MM-DD",
+    altFormat: "F j, Y",
+    allowInput: true,
+    parseDate: (datestr, format) => {
+      return moment(datestr, format, true).toDate()},
+    formatDate: (date, format, locale) => {
+      return moment(date).format(format)} 
+    });
+
+flatpickr('#my-time-picker', {
+    wrap: true,
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+    parseDate: (datestr, format) => {
+      return moment(datestr, format, true).toTime()},
+    formatDate: (date, format, locale) => {
+      return moment(date).format(format);
+    }});
+*/

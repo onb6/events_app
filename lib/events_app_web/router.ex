@@ -14,21 +14,25 @@ defmodule EventsAppWeb.Router do
     plug :accepts, ["json"]
   end
 
-
   scope "/", EventsAppWeb do
     pipe_through :browser
 
+    get "/users/photo/:id", UserController, :photo
     get "/", PageController, :index
     resources "/users", UserController
     resources "/events", EventController
-
+    resources "/comments", CommentController
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
+    resources "/updates", UpdateController
+    resources "/invites", InviteController
+
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", EventsAppWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", EventsAppWeb do
+    pipe_through :api
+
+    resources "/response", ResponseController, only: [:update]
+  end
 
 
 end

@@ -19,6 +19,7 @@ defmodule EventsApp.Events do
   """
   def list_events do
     Repo.all(Event)
+    |> Repo.preload(:user)
   end
 
   @doc """
@@ -100,5 +101,35 @@ defmodule EventsApp.Events do
   """
   def change_event(%Event{} = event) do
     Event.changeset(event, %{})
+  end
+
+  # From lecture notes
+  def load_comments(%Event{} = event) do
+    Repo.preload(event, [comments: :user])
+  end
+
+  # From lecture notes
+  def load_updates(%Event{} = event) do
+    Repo.preload(event, [updates: :event])
+  end
+
+  def load_invites(%Event{} = event) do
+    Repo.preload(event, [invites: :event])
+  end
+
+  def load_responses(%Event{} = event) do 
+    yes = event.invites
+    |> Enum.filter(fn i -> i.response == 1 end) 
+    |> Enum.count()
+    maybe = event.invites
+    |> Enum.filter(fn i -> i.response == 2 end) 
+    |> Enum.count()
+    no = event.invites
+    |> Enum.filter(fn i -> i.response == 0 end) 
+    |> Enum.count()
+    nr = event.invites
+    |> Enum.filter(fn i -> i.response == -1 end) 
+    |> Enum.count()
+    %{ event | yes: yes, no: no, maybe: maybe, nr: nr}
   end
 end

@@ -1,0 +1,13 @@
+<h1>Show Update</h1>
+
+<ul>
+
+  <li>
+    <strong>Body:</strong>
+    <%= @update.body %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.update_path(@conn, :edit, @update), class: "btn btn-outline-success" %></span>
+<span><%= link "Back", to: Routes.update_path(@conn, :index), class: "btn btn-outline-primary" %></span>

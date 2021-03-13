@@ -1,9 +1,148 @@
-<h1><%= @event.event_name %></h1>
-<p> <%= @event.description %> </p>
-<p> <strong>Date:</strong>
-    <%= @event.date %></p>
-<p><strong>Time:</strong>
-    <%= @event.time %></p>
+<%= if need_response?(@conn, @event.invites) do %>
+    <div class="alert alert-warning">
+      <p>Please RSVP to this event to let the host know if you can attend!</p>
+    </div>
+<% end %>
 
-<span><%= link "Edit", to: Routes.event_path(@conn, :edit, @event), class: "btn btn-outline-success"  %></span>
-<span><%= link "Back", to: Routes.event_path(@conn, :index), class: "btn btn-outline-primary" %></span>
+<div class="row" style="margin-bottom:50px;">
+    <%= # The event is not visible to people that are not the owner or on the invite list %>
+    <%= if have_current_user?(@conn) && (current_user_id?(@conn, @event.user_id) || on_invite_list?(@conn, @event.invites)) do %>
+    <div class="col-8">
+    <h1><%= @event.event_name %></h1>
+    <p> <%= @event.date %>, <%= @event.time %></p>
+    <p> <%= @event.description %> </p>
+      <%= if current_user_id?(@conn, @event.user_id) do %>
+          <span><%= link "Edit Event Information", to: Routes.event_path(@conn, :edit, @event), class: "btn btn-outline-success" %></span>
+        <% end %>
+    </div>
+    <div class="col-3">
+    <h4><img src=<%= Routes.user_path(@conn, :photo, @event.user_id) %> alt="Profile Picture" style="width:75px;height:auto;" class="img-thumbnail rounded-circle">
+    Host: <%= link EventsApp.Users.get_user(@event.user_id).name, to: Routes.user_path(@conn, :show, @event.user_id)%></h4>
+    </div>
+    <div class="col-1">
+    <span><%= link "Back", to: Routes.event_path(@conn, :index), class: "btn btn-outline-primary" %></span>
+    </div>
+</div>
+
+<div class="row"> 
+    <div class="col">
+    <%= if current_user_id?(@conn, @event.user_id) do %>
+         
+        <h4>Invite Guests: </h4>
+        <p>To invite guests, enter their email in the box below, then email them the provided link.</p>
+        <%= render(
+        EventsAppWeb.InviteView,
+        "form.html",
+        changeset: @new_invite,
+        action: Routes.invite_path(@conn, :create)
+        ) %>
+        <br/>
+        <p>Invitees who do not have accounts yet will appear on the guest list when they sign up! </p>
+        <p><strong>Email link:</strong> events.onb6.fun/events/<%= @event.id %>
+
+        <h4>Responses:</h4>
+            <p><%= @event.yes%> yes, <%= @event.no%> no, <%= @event.maybe%> maybe, <%= @event.nr%> haven't responded</p>
+            
+    <% else %> 
+        <h4>RSVP!</h4> 
+        <div class="btn-group btn-group-toggle rsvp-containter" data-toggle="buttons" data-invite-id=<%= get_invite_id(@conn, @event.id)%> >
+            <label class="btn btn-lg btn-outline-success">
+                <input type="radio" name="response" id="yes"  class="yes-btn" autocomplete="off"> Yes
+            </label>
+            <label class="btn btn-lg btn-outline-danger">
+                <input type="radio" name="response" id="no" class="no-btn" autocomplete="off"> No
+            </label>
+            <label class="btn btn-lg btn-outline-warning">
+                <input type="radio" name="response" id="maybe" class="maybe-btn" autocomplete="off"> Maybe
+            </label>
+        </div>
+        
+    <% end %>
+        <h4 style="margin-top:20px;">Invite List</h4>
+       <table class="table">
+      <tbody>
+        <%= for invite <- @event.invites do %>
+            <%=if invitee_by_email(invite) do %>
+            <tr>
+            <td><img src=<%= Routes.user_path(@conn, :photo, invitee_by_email(invite).id) %> alt="Profile Picture" style="max-width:60px;height:auto;" class="img-thumbnail rounded-circle"></td>
+            <td>
+            <%= link invitee_by_email(invite).name, to: Routes.user_path(@conn, :show, invitee_by_email(invite))%>
+            </td>
+            <td>
+            <%= if invite.response == 1 do %>Yes
+                <% else %><%= if invite.response == 0 do %>No
+                <% else %><%= if invite.response == 2 do %>Maybe
+                <%=else %><%= if invite.response == -1 do %>Not Responded
+                <% end %><% end %><% end %><% end %>
+                </td>
+            </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+    </table>
+        </table>
+    </div>
+
+    <div class="col">
+    
+    <h4>Add Comment</h4>
+    <%= render(
+        EventsAppWeb.CommentView,
+        "form.html",
+        changeset: @new_comment,
+        action: Routes.comment_path(@conn, :create)
+    ) %>
+
+<%= # All invitees and the host can see each other comments %>
+<h4 style="margin-top:20px;">Comments</h4>
+    <table class="table">
+      <tbody>
+        <%= for comment <- @event.comments do %>
+            <tr>
+            <td><img src=<%= Routes.user_path(@conn, :photo, comment.user) %> alt="Profile Picture" style="max-width:60px;height:auto;" class="img-thumbnail rounded-circle"></td>
+            <td><%= link comment.user.name, to: Routes.user_path(@conn, :show, comment.user)%>: <%= comment.body %></td>
+
+            <td>
+                <%= if current_user_id(@conn) == comment.user_id || current_user_id(@conn) == @event.user_id do %>
+                    <span><%= link "Delete", to: Routes.comment_path(@conn, :delete, comment), method: :delete, data: [confirm: "Are you sure?"], class:  "btn btn-outline-danger btn-sm"%></span>
+                <% end %>
+            </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+    </div>
+
+<%= # All invitees can updates, only hosts can post them %>
+    <div class="col">
+     <%= if current_user_id?(@conn, @event.user_id) do %>
+    <h4 >Add Update</h4>
+    <%= render(
+        EventsAppWeb.UpdateView,
+        "form.html",
+        changeset: @new_update,
+        action: Routes.update_path(@conn, :create)
+    ) %>
+    <% end %>
+    <h4>Updates from the Host</h4>
+     <table class="table">
+      <tbody>
+        <%= for update <- @event.updates do %>
+            <tr>
+            <td><%= update.body %></td>
+            <td>
+                <%= if current_user_id(@conn) == @event.user_id do %>
+                    <span><%= link "Delete", to: Routes.update_path(@conn, :delete, update), method: :delete, data: [confirm: "Are you sure?"], class:  "btn btn-outline-danger btn-sm"%></span>
+                <% end %>
+            </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+    
+    </div>
+    </div>
+</div>
+<% else  %>
+Log in to view this event!
+<% end  %>

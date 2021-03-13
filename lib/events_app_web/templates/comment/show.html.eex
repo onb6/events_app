@@ -1,0 +1,13 @@
+<h1>Show Comment</h1>
+
+<ul>
+
+  <li>
+    <strong>Body:</strong>
+    <%= @comment.body %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.comment_path(@conn, :edit, @comment), class: "btn btn-outline-success" %></span>
+<span><%= link "Back", to: Routes.comment_path(@conn, :index), class: "btn btn-outline-primary" %></span>
