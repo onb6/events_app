@@ -1,12 +1,13 @@
-<%= if need_response?(@conn, @event.invites) do %>
-    <div class="alert alert-warning">
-      <p>Please RSVP to this event to let the host know if you can attend!</p>
-    </div>
-<% end %>
+
 
 <div class="row" style="margin-bottom:50px;">
     <%= # The event is not visible to people that are not the owner or on the invite list %>
     <%= if have_current_user?(@conn) && (current_user_id?(@conn, @event.user_id) || on_invite_list?(@conn, @event.invites)) do %>
+    <%= if need_response?(@conn, @event.invites) do %>
+    <div class="alert alert-warning">
+      <p>Please RSVP to this event to let the host know if you can attend!</p>
+    </div>
+<% end %>
     <div class="col-8">
     <h1><%= @event.event_name %></h1>
     <p> <%= @event.date %>, <%= @event.time %></p>
