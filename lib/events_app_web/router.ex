@@ -14,7 +14,6 @@ defmodule EventsAppWeb.Router do
     plug :accepts, ["json"]
   end
 
-
   scope "/", EventsAppWeb do
     pipe_through :browser
 
@@ -27,6 +26,12 @@ defmodule EventsAppWeb.Router do
     resources "/updates", UpdateController
     resources "/invites", InviteController
 
+  end
+
+  scope "/api", EventsAppWeb do
+    pipe_through :api
+
+    resources "/response", ResponseController, only: [:update]
   end
 
 

@@ -15,5 +15,6 @@ defmodule EventsApp.Invites.Invite do
     invite
     |> cast(attrs, [:response, :email, :event_id])
     |> validate_required([:response, :email, :event_id])
+    |> unsafe_validate_unique([:email], EventsApp.Repo)
   end
 end

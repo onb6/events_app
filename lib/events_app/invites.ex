@@ -37,6 +37,12 @@ defmodule EventsApp.Invites do
   """
   def get_invite!(id), do: Repo.get!(Invite, id)
 
+  def get_invite_from_email(email, event_id) do 
+    query = from i in Invite, where: i.email == ^email and i.event_id == ^event_id, select: i.id
+    id = Repo.all(query)
+    IO.puts(id)
+  end 
+
   @doc """
   Creates a invite.
 
@@ -116,18 +122,5 @@ defmodule EventsApp.Invites do
       conflict_target: [:id])
   end
 
-
-  # # From lecture notes
-  # def load_comments(%Invite{} = invite) do
-  #   Repo.preload(invite, [comments: :event])
-  # end
-
-  # # From lecture notes
-  # def load_updates(%Invite{} = invite) do
-  #   Repo.preload(invite, [updates: :event])
-  # end
-
-  # def load_events(%Invite{} = invite) do
-  #   Repo.preload(invite, [events: :event])
-  # end
+  
 end

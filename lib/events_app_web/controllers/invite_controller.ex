@@ -20,7 +20,11 @@ defmodule EventsAppWeb.InviteController do
         conn
         |> put_flash(:info, "Invite created successfully.")
         |> redirect(to: Routes.event_path(conn, :show, invite.event_id))
+      else 
+        # TODO: Need to actually handle this error correctly
+        err -> err
       end
+
   end
 
   def show(conn, %{"id" => id}) do
