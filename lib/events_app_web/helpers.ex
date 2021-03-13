@@ -49,11 +49,10 @@ defmodule EventsAppWeb.Helpers do
       user = conn.assigns[:current_user]
       event = EventsApp.Events.get_event!(event_id)
       |> EventsApp.Events.load_invites()
-      response = (event.invites 
+      (event.invites 
       |> Enum.find(fn i -> 
         i.email == user.email 
       end)).response
-      inspect(response)
     end
       
 end
