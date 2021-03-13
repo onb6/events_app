@@ -8,7 +8,7 @@
   <div class="form-inline">
     <%= text_input f, :email, class: "form-control" %>
     <%= error_tag f, :email %>
-    <%= hidden_input f, :event_id, value: 1 %>
+    <%= hidden_input f, :event_id %>
     <%= hidden_input f, :response, value: -1 %>
     <%= submit "Invite", class: "btn btn-outline-success" %>
   </div>

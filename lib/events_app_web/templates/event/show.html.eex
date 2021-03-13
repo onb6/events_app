@@ -44,7 +44,11 @@
             <p><%= @event.yes%> yes, <%= @event.no%> no, <%= @event.maybe%> maybe, <%= @event.nr%> haven't responded</p>
             
     <% else %> 
-        <h4>RSVP!</h4> 
+        <%= if get_response(@conn, @event.id) == -1 do %>
+        <h4>RSVP</h4> 
+        <% else %>
+        <h4>Change Response</h4> 
+        <% end%>
         <div class="btn-group btn-group-toggle rsvp-containter" data-toggle="buttons" data-invite-id=<%= get_invite_id(@conn, @event.id)%> >
             <label class="btn btn-lg btn-outline-success">
                 <input type="radio" name="response" id="yes"  class="yes-btn" autocomplete="off"> Yes

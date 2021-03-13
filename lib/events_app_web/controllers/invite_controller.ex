@@ -16,7 +16,7 @@ defmodule EventsAppWeb.InviteController do
 
   def create(conn, %{"invite" => invite_params}) do
       with {:ok, %Invite{} = invite} <- Invites.create_response(invite_params) do
-        invite = Invites.load_event(invite)
+        #invite = Invites.load_event(invite)
         conn
         |> put_flash(:info, "Invite created successfully.")
         |> redirect(to: Routes.event_path(conn, :show, invite.event_id))

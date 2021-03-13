@@ -36,15 +36,24 @@ defmodule EventsAppWeb.Helpers do
 
     def get_invite_id(conn, event_id) do 
       user = conn.assigns[:current_user]
-      IO.puts(inspect(user))
       event = EventsApp.Events.get_event!(event_id)
       |> EventsApp.Events.load_invites()
-      IO.puts(inspect(event))
       invite_id = (event.invites 
       |> Enum.find(fn i -> 
         i.email == user.email 
       end)).id
       inspect(invite_id)
+    end
+
+    def get_response(conn, event_id) do 
+      user = conn.assigns[:current_user]
+      event = EventsApp.Events.get_event!(event_id)
+      |> EventsApp.Events.load_invites()
+      response = (event.invites 
+      |> Enum.find(fn i -> 
+        i.email == user.email 
+      end)).response
+      inspect(response)
     end
       
 end
